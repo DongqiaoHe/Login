@@ -13,6 +13,7 @@ public class UserService {
 
     public void register(User user) {
         System.out.println(user);
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         userMapper.register(user);
     }
 
@@ -23,8 +24,8 @@ public class UserService {
             return null;
         }
         // md5加密; bobo2 的md5值为：b49b6d44a4456d955c3ff25f709f11ac 作为测试
-        String hashedPassword = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
-        if (hashedPassword.equals(password)) {
+        String hashedPassword = DigestUtils.md5DigestAsHex(password.getBytes());
+        if (hashedPassword.equals(user.getPassword())) {
             return user;
         }
         return null;
